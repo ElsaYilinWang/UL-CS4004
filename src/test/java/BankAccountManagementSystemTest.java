@@ -16,6 +16,8 @@ class BankAccountManagementSystemTest {
     }
 
     // Create Account tests
+    // Condition coverage == 100%
+
     @Test
     @DisplayName("Create account success")
     void createAccountSuccess() {
@@ -56,6 +58,7 @@ class BankAccountManagementSystemTest {
     }
 
     // Deposit tests
+    // Condition coverage == Branch coverage
     @Test
     @DisplayName("Deposit Into Non Existing Account")
     void depositIntoNonExistingAccount() {
@@ -93,6 +96,9 @@ class BankAccountManagementSystemTest {
 
 
     // Withdraw tests
+    // Condition coverage = 89%
+    // because when amount == 0, it returns -1.0, not -3.0,
+    // and it will never reach -3.0 (1/9 of all conditions not reached)
 
     @Test
     @DisplayName("Withdraw From Non-Existing Account")
@@ -208,6 +214,7 @@ class BankAccountManagementSystemTest {
     }
 
     // Get Account Balance tests
+    // Condition coverage: 100%
     @Test
     @DisplayName("Get Account Balance For Non-Existing Account")
     void getAccountBalanceForNonExistingAccount() {
