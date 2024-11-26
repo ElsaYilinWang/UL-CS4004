@@ -9,8 +9,8 @@ public class BankAccountManagementSystem_23221356 {
 
     private final HashMap<Integer, Double> bankAccounts;
 
-    public BankAccountManagementSystem_23221356(HashMap<Integer, Double> bankAccounts) {
-        this.bankAccounts = bankAccounts;
+    public BankAccountManagementSystem_23221356() {
+        this.bankAccounts = new HashMap<>();
     }
 
     /*
@@ -42,10 +42,10 @@ public class BankAccountManagementSystem_23221356 {
     * Implement a successful deposit operation.
     * Validate that deposited amounts are positive numeric values.
     */
-    public double deposit(int accountId, double amount) {
+    public boolean deposit(int accountId, double amount) {
 
         if (bankAccounts.containsKey(accountId) && amount > 0.0) {
-            double currentBalance = bankAccounts.get(accountId);
+            double currentBalance = getAccountBalance(accountId);
 
             currentBalance += amount;
 
@@ -53,21 +53,20 @@ public class BankAccountManagementSystem_23221356 {
 
             System.out.println("Deposit successful! Current balance is " + currentBalance + ".");
 
-            return currentBalance;
+            return true;
 
         } else if (!bankAccounts.containsKey(accountId)) {
 
             System.out.println("Deposit unsuccessful. The account id is invalid.");
-            return -1.0;
+
 
         } else if (amount <= 0.0) {
 
             System.out.println("Deposit unsuccessful. The amount is invalid.");
-            return -2.0;
         }
 
 
-        return -3.0; // This means something exceptional happens.
+        return false;
     }
 
     /*
@@ -77,35 +76,33 @@ public class BankAccountManagementSystem_23221356 {
     * Validate that withdrawal amounts are positive numeric values.
     */
 
-    public double withdraw(int accountId, double amount) {
+    public boolean withdraw(int accountId, double amount) {
         try {
             bankAccounts.containsKey(accountId);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        double currentBalance = bankAccounts.get(accountId);
+        double currentBalance = getAccountBalance(accountId);
 
         if (amount > 0.0 && !overDraft(accountId, amount)) {
 
             currentBalance -= amount;
             System.out.println("Withdraw successful! Your current balance is " + currentBalance + ".");
-            return currentBalance;
+            return true;
 
 
         } else if (amount <= 0.0) {
 
             System.out.println("Withdraw unsuccessful. The amount is invalid.");
-            return -4.0;
 
         } else if (overDraft(accountId, amount)) {
 
             System.out.println("Withdraw unsuccessful. Overdraft");
-            return -5.0;
 
         }
 
 
-        return -6.0; // This means something exceptional happens.
+        return false;
     }
 
     /*
@@ -117,14 +114,14 @@ public class BankAccountManagementSystem_23221356 {
     */
     public boolean overDraft(int accountId, double amount) {
         try {
-            bankAccounts.get(accountId);
+            bankAccounts.containsKey(accountId);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
 
-        double currentBalance = bankAccounts.get(accountId);
+        double currentBalance = getAccountBalance(accountId);
 
-        return bankAccounts.containsKey(accountId) && amount > currentBalance;
+        return amount > currentBalance;
     }
 
     /*
