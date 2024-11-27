@@ -20,21 +20,17 @@ public class BankAccountManagementSystem_23221356 {
     * Validate that the initial balance is a positive numeric value.
     * Implement a check to prevent the creation of duplicate accounts.
     */
-    public boolean createAccount(int accountId, double initialBalance) {
 
+    public boolean createAccount(int accountId, double initialBalance) {
 
         if (!bankAccounts.containsKey(accountId) && initialBalance > 0.0) {
 
             bankAccounts.put(accountId, initialBalance);
-
-            System.out.println("Your account " + accountId + " has been successfully created.");
-            System.out.println("Your balance is " + initialBalance + ".");
-
             return true;
         }
-
         return false;
     }
+
 
     /*
     2. Requirement 2: Deposit
@@ -42,32 +38,21 @@ public class BankAccountManagementSystem_23221356 {
     * Implement a successful deposit operation.
     * Validate that deposited amounts are positive numeric values.
     */
-    public boolean deposit(int accountId, double amount) {
 
+    public boolean deposit(int accountId, double amount) {
         if (bankAccounts.containsKey(accountId) && amount > 0.0) {
-            double currentBalance = getAccountBalance(accountId);
+
+            double currentBalance = bankAccounts.get(accountId);
 
             currentBalance += amount;
 
             bankAccounts.put(accountId, currentBalance);
 
-            System.out.println("Deposit successful! Current balance is " + currentBalance + ".");
-
             return true;
-
-        } else if (!bankAccounts.containsKey(accountId)) {
-
-            System.out.println("Deposit unsuccessful. The account id is invalid.");
-
-
-        } else if (amount <= 0.0) {
-
-            System.out.println("Deposit unsuccessful. The amount is invalid.");
         }
-
-
         return false;
     }
+
 
     /*
     3. Requirement 3: Withdrawal
@@ -76,32 +61,22 @@ public class BankAccountManagementSystem_23221356 {
     * Validate that withdrawal amounts are positive numeric values.
     */
 
+
     public boolean withdraw(int accountId, double amount) {
+
         try {
             bankAccounts.containsKey(accountId);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        double currentBalance = getAccountBalance(accountId);
+
+        double currentBalance = bankAccounts.get(accountId);
 
         if (amount > 0.0 && !overDraft(accountId, amount)) {
-
             currentBalance -= amount;
-            System.out.println("Withdraw successful! Your current balance is " + currentBalance + ".");
+            bankAccounts.put(accountId, currentBalance);
             return true;
-
-
-        } else if (amount <= 0.0) {
-
-            System.out.println("Withdraw unsuccessful. The amount is invalid.");
-
-        } else if (overDraft(accountId, amount)) {
-
-            System.out.println("Withdraw unsuccessful. Overdraft");
-
         }
-
-
         return false;
     }
 
@@ -118,11 +93,10 @@ public class BankAccountManagementSystem_23221356 {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-
         double currentBalance = getAccountBalance(accountId);
-
         return amount > currentBalance;
     }
+
 
     /*
     5. Requirement 5: Balance Inquiry
